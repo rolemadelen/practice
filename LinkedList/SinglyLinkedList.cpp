@@ -15,6 +15,7 @@ public:
     int size;
 
     SinglyLinkedList() : head(nullptr), size(0) {}
+
     ~SinglyLinkedList() {
         while(head) popFront();
         head = nullptr;
@@ -59,11 +60,7 @@ public:
         }
 
         Node *newNode = new Node(val);
-        Node *temp = head;
-
-        for (int i = 0; i < pos - 1; ++i) {
-            temp = temp->next;
-        }
+        Node *temp = getNthFromHead(pos);
 
         newNode->next = temp->next;
         temp->next = newNode;
@@ -113,11 +110,7 @@ public:
             return;
         }
 
-        Node *temp = head;
-        for (int i=0; i<pos-1; ++i) {
-            temp = temp->next;
-        }
-
+        Node *temp = getNthFromHead(pos);
         Node *deleteNode = temp->next;
         temp->next = temp->next->next;
         delete deleteNode;
@@ -214,6 +207,26 @@ public:
         }
         cout << "NULL" << endl;
     }
+
+    void displayReverse() {
+        reverse();
+        display();
+        reverse();
+    }
+
+    void reverse() {
+        Node *prev = nullptr;
+        Node *curr = head;
+        
+        while(curr) {
+            Node *temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
+        }
+
+        head = prev;
+    }
 };
 
 int main() {
@@ -226,30 +239,12 @@ int main() {
 
     list.display();
 
-    cout << list.getNthFromHead(1)->data << endl;
-    cout << list.getNthFromHead(2)->data << endl;
-    cout << list.getNthFromHead(3)->data << endl;
-    cout << list.getNthFromHead(4)->data << endl;
-    cout << list.getNthFromHead(5)->data << endl;
-    cout << list.getNthFromHead(10) << endl;
-
+    list.insert(2, 25);
     list.display();
 
-    cout << list.getNthFromTail(1)->data << endl;
-    cout << list.getNthFromTail(2)->data << endl;
-    cout << list.getNthFromTail(3)->data << endl;
-    cout << list.getNthFromTail(4)->data << endl;
-    cout << list.getNthFromTail(5)->data << endl;
-    cout << list.getNthFromTail(10) << endl;
-
-    /////////////
-
-    while (!list.isEmpty()) {
-        list.display();
-        list.popBack();
-    }
+    list.deleteAt(4);
     list.display();
-    list.popBack();
+
 
     return 0;
 }

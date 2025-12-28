@@ -220,6 +220,26 @@ class DoublyLinkedList {
 
             cout << curr->data << endl;
         }
+
+        void reverseList() {
+            Node *curr = head;
+            Node *prev = nullptr;
+            Node *nextNode = curr->next;
+
+            while (curr->next) {
+                curr->next = prev;
+
+                prev = curr;
+                curr = nextNode;
+                nextNode = curr->next;
+            }
+
+            curr->next = prev;
+            Node *temp = head;
+            head = tail;
+            tail = temp;
+            
+        }
 };
 
 int main() {
@@ -264,7 +284,22 @@ int main() {
     list.deleteAt(2);
     list.display();
 
-    list.displayReverse();
+    cout << "REVERSE the list" << endl;;
+    list.reverseList();
+    list.display();
+
+    list.pushFront(8);
+    list.pushBack(0);
+    list.display();
+
+    cout << "REVERSE again" << endl;;
+    list.reverseList();
+    list.insert(2, 3);
+    list.insert(5, 6);
+    list.display();
+
+    list.reverseList();
+    list.display();
 
     cout << "Process finished." << endl;
 

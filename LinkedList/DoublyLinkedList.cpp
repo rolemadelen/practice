@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 class Node {
@@ -19,6 +18,13 @@ class DoublyLinkedList {
 
     public:
         DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
+        ~DoublyLinkedList() {
+            while(size > 0) {
+                popFront();
+            }
+            head = nullptr;
+            tail = nullptr;
+        }
 
         void pushBack(int data) {
             Node *newNode = new Node(data);
@@ -170,7 +176,6 @@ class DoublyLinkedList {
             while(curr) {
                 if (curr->data == data) {
                     deleteAt(pos);
-                    --size;
                     return;
                 }
                 curr = curr->next;
@@ -207,7 +212,7 @@ class DoublyLinkedList {
                 curr = curr->next;
             }
 
-            cout << curr->data << endl;
+            cout << curr->data << " (" << size << ")" << endl;
         }
 
         void displayReverse() {
@@ -224,21 +229,19 @@ class DoublyLinkedList {
         void reverseList() {
             Node *curr = head;
             Node *prev = nullptr;
-            Node *nextNode = curr->next;
 
-            while (curr->next) {
+            tail = head;
+
+            while (curr) {
+                prev = curr->prev;
+                curr->prev = curr->next;
                 curr->next = prev;
-
-                prev = curr;
-                curr = nextNode;
-                nextNode = curr->next;
+                if (curr->prev == nullptr) {
+                    head = curr;
+                }
+                curr = curr->prev;
             }
 
-            curr->next = prev;
-            Node *temp = head;
-            head = tail;
-            tail = temp;
-            
         }
 };
 

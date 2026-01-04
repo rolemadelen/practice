@@ -20,6 +20,7 @@ class SinglyLinkedList
         if @size == 0
             @head = node
             @tail = node
+            @head.next = @tail
         else
             @tail.next = node
             @tail = node
@@ -34,6 +35,7 @@ class SinglyLinkedList
         if @size == 0
             @head = node
             @tail = node
+            @head.next = @tail
         else
             node.next = @head
             @head = node
@@ -43,6 +45,22 @@ class SinglyLinkedList
     end
 
     def insert(pos, data)
+        if pos == 0
+            push_front(data)
+        elsif pos == @size
+            push_back(data)
+        else
+            if pos > @size || pos < 0
+                puts "invalid position"
+                return nil
+            end
+            temp_node = get_nth_node(pos-2)
+            new_node = Node.new(data)
+
+            new_node.next = temp_node.next
+            temp_node.next = new_node
+            @size += 1
+        end
     end
 
     def pop_front
@@ -69,16 +87,45 @@ class SinglyLinkedList
         else
             before_tail = get_nth_node(@size-2)
             before_tail.next = nil
+            @tail = before_tail
         end
 
         @size -= 1
     end
 
-
     def delete_at(pos)
+        if pos == 0
+            pop_front
+        elsif pos == @size-1
+            pop_back
+        else
+            if pos > @size || pos < 0
+                puts "invalid position"
+                return nil
+            end
+            temp_node = get_nth_node(pos-1)
+            temp_node.next = temp_node.next.next
+            @size -= 1
+        end
     end
 
     def delete_key(data)
+        return nil if has?(data) == false
+        
+        if @head.data == data
+            pop_front
+        elsif @tail.data == data
+            pop_back
+        else
+            curr = @head
+            pos = 0
+            while curr.next.data != data
+                curr = curr.next
+                pos += 1
+            end
+
+            delete_at(pos+1)
+        end
     end
 
     def has?(data)
@@ -101,7 +148,10 @@ class SinglyLinkedList
     alias_method :length, :size
 
     def display
-        return if @head == nil
+        if @head == nil
+            puts "list is empty"
+            return nil
+        end
 
         curr = @head
         while curr.next != nil
@@ -114,7 +164,6 @@ class SinglyLinkedList
     def reverse
     end
 
-    # pos = 0-based index
     private def get_nth_node(pos)
         curr = @head
         pos.times { curr = curr.next }
@@ -151,5 +200,42 @@ list.pop_back
 list.display
 
 list.push_front(1)
-list.push_back(7)
+list.push_back(12)
+list.display
+
+list.insert(0, 0)
+list.insert(8, 17)
+list.display
+
+list.delete_at(1)
+list.display
+
+list.delete_at(6)
+list.display
+
+list.delete_at(0)
+list.display
+
+list.push_front(1)
+list.display
+
+list.pop_back
+list.display
+
+list.delete_key(2)
+list.delete_key(4)
+list.display
+
+list.delete_key(1)
+list.display
+list.delete_key(3)
+list.display
+list.delete_key(5)
+list.display
+list.delete_key(7)
+list.display
+
+puts
+
+list.pop_back
 list.display

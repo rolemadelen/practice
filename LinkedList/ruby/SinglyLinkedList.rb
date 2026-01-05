@@ -20,7 +20,6 @@ class SinglyLinkedList
         if @size == 0
             @head = node
             @tail = node
-            @head.next = @tail
         else
             @tail.next = node
             @tail = node
@@ -35,7 +34,6 @@ class SinglyLinkedList
         if @size == 0
             @head = node
             @tail = node
-            @head.next = @tail
         else
             node.next = @head
             @head = node
@@ -181,6 +179,9 @@ class SinglyLinkedList
         while empty? == false
             pop_front
         end
+        @head = @tail = nil
+        @size　= 0
+
     end
 
     def each

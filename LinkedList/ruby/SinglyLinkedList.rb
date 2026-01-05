@@ -177,6 +177,26 @@ class SinglyLinkedList
         @tail = temp_head
     end
 
+    def clear
+        while empty? == false
+            pop_front
+        end
+    end
+
+    def each
+        curr = @head
+
+        while curr
+            yield curr
+            curr = curr.next
+        end
+    end
+
+    def to_s
+        each { |node| print("#{node.data} ")}
+        puts "(size: #{@size})"
+    end
+
     private def get_nth_node(pos)
         curr = @head
         pos.times { curr = curr.next }
@@ -269,3 +289,16 @@ list.display
 
 list.reverse
 list.display
+
+list.clear
+list.display
+
+puts
+
+list.push_back(1)
+list.push_back(3)
+list.push_back(5)
+
+list.each { |node| puts node.data }
+
+list.to_s

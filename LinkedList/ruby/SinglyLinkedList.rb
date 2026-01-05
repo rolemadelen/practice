@@ -162,6 +162,19 @@ class SinglyLinkedList
     end
 
     def reverse
+        prev = nil
+        curr = @head
+        temp_head = @head
+
+        while curr != nil
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+        end
+
+        @head = prev
+        @tail = temp_head
     end
 
     private def get_nth_node(pos)
@@ -238,4 +251,21 @@ list.display
 puts
 
 list.pop_back
+list.display
+
+puts
+
+for x in 1..5 do
+    list.push_back(x)
+end
+
+list.display
+list.reverse
+list.display
+
+list.push_front(6)
+list.push_back(0)
+list.display
+
+list.reverse
 list.display

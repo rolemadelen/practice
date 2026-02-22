@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::io::{self, Write};
 
 fn read_int() -> i32 {
@@ -43,4 +43,22 @@ fn read_vec() -> Vec<i32> {
 
 fn main() {
     let mut out = io::BufWriter::new(io::stdout().lock());
+    let n = read_int();
+    let mut map: HashMap<String, String> = HashMap::new();
+
+    for _ in 0..n {
+        let s = read_str();
+        let mut s = s.split_whitespace();
+        let name = s.next().unwrap();
+        let log = s.next().unwrap();
+
+        map.insert(name.to_string(), log.to_string());
+    }
+
+    let mut res: Vec<_> = map.iter().filter(|&(_, log)| log == "enter").collect();
+    res.sort();
+    for (name, _) in res.iter().rev() {
+        writeln!(out, "{}", name).unwrap();
+    }
+
 }
